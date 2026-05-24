@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciamento Siafauna</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen p-6">
+
+<div id="login" class="flex items-center justify-center min-h-screen">
+  <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md">
+    <h1 class="text-3xl font-bold text-center mb-6">Gerenciamento Siafauna</h1>
+
+    <input
+      id="usuario"
+      type="text"
+      placeholder="Usuário"
+      class="w-full border border-slate-300 rounded-xl p-4 mb-4"
+    >
+
+    <input
+      id="senha"
+      type="password"
+      placeholder="Senha"
+      class="w-full border border-slate-300 rounded-xl p-4"
+    >
+
+    <button
+      onclick="fazerLogin()"
+      class="w-full mt-5 bg-slate-900 text-white rounded-xl py-4 font-semibold"
+    >
+      Entrar
+    </button>
+  </div>
+</div>
+
+<div id="nomeTela" class="hidden flex items-center justify-center min-h-screen">
+  <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md">
+    <h1 class="text-3xl font-bold text-center mb-6">Bem-vindo</h1>
+
+    <input
+      id="nomeUsuario"
+      type="text"
+      placeholder="Nome ou apelido"
+      class="w-full border border-slate-300 rounded-xl p-4"
+    >
+
+    <button
+      onclick="entrarSistema()"
+      class="w-full mt-5 bg-slate-900 text-white rounded-xl py-4 font-semibold"
+    >
+      Continuar
+    </button>
+  </div>
+</div>
+
+<div id="plataforma" class="hidden max-w-7xl mx-auto space-y-6">
+
+  <div class="bg-white rounded-2xl shadow-lg p-6">
+    <h1 class="text-4xl font-bold text-slate-800 mb-3">
+      Gerenciamento Siafauna
+    </h1>
+
+    <div class="text-sm text-slate-500 mb-4">
+      Usuário conectado:
+      <span id="usuarioLogado" class="font-semibold text-slate-800 ml-2"></span>
+    </div>
+
+    <p class="text-slate-600 text-lg">
+      Plataforma para registrar oportunidades, ameaças, concorrentes,
+      fornecedores e riscos do projeto.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+
+    <div class="bg-white rounded-2xl shadow-lg p-5">
+      <h2 class="text-xl font-bold mb-3">Oportunidades</h2>
+
+      <textarea id="oportunidade" class="w-full h-36 border border-slate-300 rounded-xl p-4"></textarea>
+
+      <button
+        onclick="salvarItem('Oportunidade','oportunidade','Ideias')"
+        class="w-full mt-4 bg-sky-500 text-white rounded-xl py-3 font-semibold"
+      >
+        Salvar Oportunidade
+      </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-5">
+      <h2 class="text-xl font-bold mb-3">Ameaças</h2>
+
+      <textarea id="ameaca" class="w-full h-36 border border-slate-300 rounded-xl p-4"></textarea>
+
+      <button
+        onclick="salvarItem('Ameaça','ameaca','Conceito')"
+        class="w-full mt-4 bg-red-500 text-white rounded-xl py-3 font-semibold"
+      >
+        Salvar Ameaça
+      </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-5">
+      <h2 class="text-xl font-bold mb-3">Concorrentes e Fornecedores</h2>
+
+      <textarea id="concorrente" class="w-full h-36 border border-slate-300 rounded-xl p-4"></textarea>
+
+      <button
+        onclick="salvarItem('Concorrente/Fornecedor','concorrente','Projeto')"
+        class="w-full mt-4 bg-green-500 text-white rounded-xl py-3 font-semibold"
+      >
+        Salvar Informação
+      </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-5">
+      <h2 class="text-xl font-bold mb-3">Potenciais Clientes</h2>
+
+      <textarea id="cliente" class="w-full h-36 border border-slate-300 rounded-xl p-4"></textarea>
+
+      <button
+        onclick="salvarItem('Potencial Cliente','cliente','Produto')"
+        class="w-full mt-4 bg-yellow-500 text-white rounded-xl py-3 font-semibold"
+      >
+        Salvar Cliente
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-lg p-6">
+    <h2 class="text-3xl font-bold text-slate-800 mb-6">Nova Estratégia</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+      <input id="estrategia" type="text" placeholder="Nome da estratégia"
+        class="border border-slate-300 rounded-xl p-4">
+
+      <select id="prioridade" class="border border-slate-300 rounded-xl p-4">
+        <option>Alta Prioridade</option>
+        <option>Média Prioridade</option>
+        <option>Baixa Prioridade</option>
+      </select>
+
+      <select id="fase" class="border border-slate-300 rounded-xl p-4">
+        <option>Ideias</option>
+        <option>Conceito</option>
+        <option>Projeto</option>
+        <option>Produto</option>
+      </select>
+
+      <select id="status" class="border border-slate-300 rounded-xl p-4">
+        <option>Planejamento</option>
+        <option>Em andamento</option>
+        <option>Concluído</option>
+      </select>
+    </div>
+
+    <button
+      onclick="salvarEstrategia()"
+      class="mt-6 bg-slate-900 text-white rounded-xl px-6 py-4 font-semibold"
+    >
+      Salvar Estratégia
+    </button>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-lg p-6">
+    <h2 class="text-3xl font-bold text-slate-800 mb-6">Marcar Reunião</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+      <input
+        id="assunto"
+        type="text"
+        placeholder="Assunto da reunião"
+        class="border border-slate-300 rounded-xl p-4"
+      >
+
+      <select id="prioridadeReuniao" class="border border-slate-300 rounded-xl p-4">
+        <option>Alta Prioridade</option>
+        <option>Média Prioridade</option>
+        <option>Baixa Prioridade</option>
+      </select>
+    </div>
+
+    <button
+      onclick="salvarReuniao()"
+      class="mt-6 bg-indigo-600 text-white rounded-xl px-6 py-4 font-semibold"
+    >
+      Salvar Reunião
+    </button>
+
+    <div class="mt-8 border-t border-slate-200 pt-6">
+      <div class="text-lg font-semibold text-slate-700 mb-2">
+        Publicar Comentários dos Membros
+      </div>
+
+      <textarea
+        id="comentario"
+        class="w-full border border-slate-300 rounded-xl p-4 min-h-[120px]"
+      ></textarea>
+
+      <button
+        onclick="enviarComentario()"
+        class="mt-4 bg-slate-900 text-white rounded-xl px-6 py-3 font-semibold"
+      >
+        Enviar Comentário
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-lg p-6">
+    <h2 class="text-3xl font-bold text-slate-800 mb-6">
+      Histórico de Estratégias e Reuniões
+    </h2>
+
+    <div id="historico" class="space-y-4"></div>
+  </div>
+</div>
+
+<script>
+let usuarioAtual = '';
+
+window.onload = function () {
+  const sessaoAtiva = sessionStorage.getItem('siafauna_logado');
+  const usuarioSalvo = sessionStorage.getItem('siafauna_usuario');
+  const historicoSalvo = localStorage.getItem('siafauna_historico');
+
+  if (historicoSalvo) {
+    document.getElementById('historico').innerHTML = historicoSalvo;
+  }
+
+  if (sessaoAtiva === 'true' && usuarioSalvo) {
+    usuarioAtual = usuarioSalvo;
+
+    document.getElementById('usuarioLogado').innerText = usuarioSalvo;
+
+    document.getElementById('login').classList.add('hidden');
+    document.getElementById('nomeTela').classList.add('hidden');
+    document.getElementById('plataforma').classList.remove('hidden');
+  }
+};
+
+function salvarHistoricoLocal() {
+  const historico = document.getElementById('historico').innerHTML;
+  localStorage.setItem('siafauna_historico', historico);
+}
+
+function fazerLogin() {
+  const usuario = document.getElementById('usuario').value;
+  const senha = document.getElementById('senha').value;
+
+  if (usuario === 'siafauna' && senha === '1234@') {
+    document.getElementById('login').classList.add('hidden');
+    document.getElementById('nomeTela').classList.remove('hidden');
+  } else {
+    alert('Usuário ou senha incorretos');
+  }
+}
+
+function entrarSistema() {
+  const nome = document.getElementById('nomeUsuario').value;
+
+  if (!nome.trim()) return;
+
+  usuarioAtual = nome;
+
+  sessionStorage.setItem('siafauna_logado', 'true');
+  sessionStorage.setItem('siafauna_usuario', nome);
+
+  document.getElementById('usuarioLogado').innerText = nome;
+
+  document.getElementById('nomeTela').classList.add('hidden');
+  document.getElementById('plataforma').classList.remove('hidden');
+}
+
+function corPrioridade(prioridade) {
+  if (prioridade === 'Alta Prioridade') return 'bg-red-500';
+  if (prioridade === 'Média Prioridade') return 'bg-yellow-500';
+  return 'bg-green-500';
+}
+
+function adicionarHistorico(tipo, titulo, prioridade, fase, status, comentario = '') {
+  const historico = document.getElementById('historico');
+  const dataHora = new Date().toLocaleString('pt-BR');
+
+  const bloco = `
+    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 relative">
+
+      <button
+        onclick="this.parentElement.remove(); salvarHistoricoLocal();"
+        class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-lg text-sm"
+      >
+        Apagar
+      </button>
+
+      <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
+        <div>
+          <div class="text-sm uppercase tracking-wide text-slate-500 mb-1">
+            ${tipo}
+          </div>
+
+          <div class="text-xl font-bold text-slate-800">
+            ${titulo}
+          </div>
+        </div>
+
+        ${prioridade ? `
+        <div class="${corPrioridade(prioridade)} text-white px-4 py-2 rounded-xl text-sm font-semibold">
+          ${prioridade}
+        </div>
+        ` : ''}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm text-slate-700">
+        <div><strong>Fase:</strong> ${fase}</div>
+        <div><strong>Status:</strong> ${status}</div>
+        <div><strong>Data:</strong> ${dataHora}</div>
+      </div>
+
+      <div class="mt-4 text-sm text-slate-700">
+        <strong>Responsável:</strong> ${usuarioAtual}
+      </div>
+
+      ${comentario ? `
+        <div class="mt-4 bg-white border border-slate-200 rounded-xl p-4">
+          <div class="font-semibold text-slate-800 mb-2">
+            Comentários Publicados
+          </div>
+
+          <div class="text-slate-600 whitespace-pre-wrap">
+            ${comentario}
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+
+  historico.innerHTML = bloco + historico.innerHTML;
+
+  salvarHistoricoLocal();
+}
+
+function salvarItem(tipo, campoId, fase) {
+  const valor = document.getElementById(campoId).value;
+
+  if (!valor.trim()) return;
+
+  adicionarHistorico(tipo, valor, 'Média Prioridade', fase, 'Salvo');
+
+  document.getElementById(campoId).value = '';
+}
+
+function salvarEstrategia() {
+  const estrategia = document.getElementById('estrategia').value;
+  const prioridade = document.getElementById('prioridade').value;
+  const fase = document.getElementById('fase').value;
+  const status = document.getElementById('status').value;
+
+  if (!estrategia.trim()) return;
+
+  adicionarHistorico('Estratégia', estrategia, prioridade, fase, status);
+
+  document.getElementById('estrategia').value = '';
+}
+
+function salvarReuniao() {
+  const assunto = document.getElementById('assunto').value;
+  const prioridade = document.getElementById('prioridadeReuniao').value;
+
+  if (!assunto.trim()) return;
+
+  adicionarHistorico('Reunião', assunto, prioridade, 'Projeto', 'Agendada');
+
+  document.getElementById('assunto').value = '';
+}
+
+function enviarComentario() {
+  const comentario = document.getElementById('comentario').value;
+
+  if (!comentario.trim()) return;
+
+  adicionarHistorico(
+    'Comentário',
+    'Comentário publicado',
+    '',
+    'Projeto',
+    'Enviado',
+    comentario
+  );
+
+  document.getElementById('comentario').value = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const loginVisivel = !document.getElementById('login').classList.contains('hidden');
+    const nomeVisivel = !document.getElementById('nomeTela').classList.contains('hidden');
+
+    if (loginVisivel) {
+      fazerLogin();
+    } else if (nomeVisivel) {
+      entrarSistema();
+    }
+  }
+});
+</script>
+
+</body>
+</html>
