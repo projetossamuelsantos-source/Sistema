@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciamento Siafauna</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen p-6">
+
+<!-- LOGIN -->
+<div id="login" class="flex items-center justify-center min-h-screen">
+  <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md">
+
+    <h1 class="text-3xl font-bold text-center mb-6">
+      Gerenciamento Siafauna
+    </h1>
+
+    <input
+      id="usuario"
+      type="text"
+      placeholder="Usuário"
+      class="w-full border border-slate-300 rounded-xl p-4 mb-4"
+    >
+
+    <input
+      id="senha"
+      type="password"
+      placeholder="Senha"
+      class="w-full border border-slate-300 rounded-xl p-4"
+    >
+
+    <button
+      id="btnLogin"
+      class="w-full mt-5 bg-slate-900 text-white rounded-xl py-4 font-semibold"
+    >
+      Entrar
+    </button>
+
+  </div>
+</div>
+
+<!-- NOME -->
+<div id="nomeTela" class="hidden items-center justify-center min-h-screen">
+  <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-md">
+
+    <h1 class="text-3xl font-bold text-center mb-6">
+      Bem-vindo
+    </h1>
+
+    <input
+      id="nomeUsuario"
+      type="text"
+      placeholder="Nome ou apelido"
+      class="w-full border border-slate-300 rounded-xl p-4"
+    >
+
+    <button
+      id="btnContinuar"
+      class="w-full mt-5 bg-slate-900 text-white rounded-xl py-4 font-semibold"
+    >
+      Continuar
+    </button>
+
+  </div>
+</div>
+
+<!-- PLATAFORMA -->
+<div id="plataforma" class="hidden max-w-7xl mx-auto space-y-6">
+
+  <div class="bg-white rounded-2xl shadow-lg p-6">
+
+    <div class="flex justify-between items-center flex-wrap gap-4">
+
+      <div>
+        <h1 class="text-4xl font-bold text-slate-800 mb-3">
+          Gerenciamento Siafauna
+        </h1>
+
+        <p class="text-slate-600">
+          Plataforma para registrar oportunidades, ameaças,
+          concorrentes, fornecedores e riscos.
+        </p>
+      </div>
+
+      <div class="text-right">
+
+        <div class="text-sm text-slate-500">
+          Usuário:
+          <span id="usuarioLogado" class="font-semibold"></span>
+        </div>
+
+        <button
+          id="btnLogout"
+          class="mt-3 bg-red-500 text-white px-4 py-2 rounded-xl"
+        >
+          Sair
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- GRID -->
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Oportunidades</h2>
+
+      <textarea id="oportunidade" class="w-full border p-3 rounded-xl h-40"></textarea>
+
+      <button onclick="salvarItem('Oportunidade','oportunidade','Ideias')" class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-xl w-full">
+        Salvar
+      </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Ameaças</h2>
+
+      <textarea id="ameaca" class="w-full border p-3 rounded-xl h-40"></textarea>
+
+      <button onclick="salvarItem('Ameaça','ameaca','Conceito')" class="mt-3 bg-red-500 text-white px-4 py-2 rounded-xl w-full">
+        Salvar
+      </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Concorrentes</h2>
+
+      <textarea id="concorrente" class="w-full border p-3 rounded-xl h-40"></textarea>
+
+      <button onclick="salvarItem('Concorrente','concorrente','Projeto')" class="mt-3 bg-green-500 text-white px-4 py-2 rounded-xl w-full">
+        Salvar
+      </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Clientes</h2>
+
+      <textarea id="cliente" class="w-full border p-3 rounded-xl h-40"></textarea>
+
+      <button onclick="salvarItem('Cliente','cliente','Produto')" class="mt-3 bg-yellow-500 text-white px-4 py-2 rounded-xl w-full">
+        Salvar
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ESTRATÉGIAS -->
+  <div class="bg-white rounded-2xl shadow-lg p-6">
+
+    <h2 class="text-2xl font-bold mb-4">Nova Estratégia</h2>
+
+    <input
+      id="estrategia"
+      placeholder="Digite a estratégia"
+      class="w-full border border-slate-300 rounded-xl p-3"
+    >
+
+    <button
+      onclick="salvarEstrategia()"
+      class="mt-4 bg-black text-white px-4 py-2 rounded-xl"
+    >
+      Salvar Estratégia
+    </button>
+
+  </div>
+
+  <!-- REUNIÃO -->
+  <div class="bg-white rounded-2xl shadow-lg p-6">
+
+    <h2 class="text-2xl font-bold mb-4">Reunião</h2>
+
+    <input
+      id="assunto"
+      placeholder="Assunto"
+      class="w-full border border-slate-300 rounded-xl p-3"
+    >
+
+    <button
+      onclick="salvarReuniao()"
+      class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-xl"
+    >
+      Salvar Reunião
+    </button>
+
+    <h3 class="mt-8 text-xl font-bold">
+      Comentários dos Membros
+    </h3>
+
+    <textarea
+      id="comentario"
+      class="w-full border border-slate-300 rounded-xl p-3 mt-3 h-32"
+    ></textarea>
+
+    <button
+      onclick="enviarComentario()"
+      class="mt-4 bg-slate-900 text-white px-4 py-2 rounded-xl"
+    >
+      Enviar Comentário
+    </button>
+
+  </div>
+
+  <!-- HISTÓRICO -->
+  <div class="bg-white rounded-2xl shadow-lg p-6">
+
+    <h2 class="text-2xl font-bold mb-4">
+      Histórico de Eventos
+    </h2>
+
+    <button
+      id="btnExportarPDF"
+      class="mb-5 bg-blue-600 text-white px-4 py-2 rounded-xl"
+    >
+      Salvar Histórico em PDF
+    </button>
+
+    <div id="historico" class="space-y-4"></div>
+
+  </div>
+
+</div>
+
+<!-- CHAT -->
+<div id="chatContainer" class="hidden fixed bottom-5 right-5 w-80 z-50">
+
+  <div class="bg-slate-900 text-white px-4 py-3 rounded-t-2xl flex justify-between items-center shadow-xl">
+
+    <div class="font-bold">
+      Chat da Equipe
+    </div>
+
+    <button
+      id="btnMinimizarChat"
+      class="bg-slate-700 px-3 py-1 rounded-lg text-sm"
+    >
+      Minimizar
+    </button>
+
+  </div>
+
+  <div id="chatBox" class="bg-white border border-slate-200 rounded-b-2xl shadow-2xl overflow-hidden">
+
+    <div id="chatMensagens" class="h-72 overflow-y-auto p-4 bg-slate-50 space-y-3"></div>
+
+    <div class="p-3 border-t border-slate-200">
+
+      <textarea
+        id="chatInput"
+        placeholder="Digite uma mensagem"
+        class="w-full border border-slate-300 rounded-xl p-3 h-20 resize-none"
+      ></textarea>
+
+      <button
+        id="btnEnviarChat"
+        class="w-full mt-3 bg-slate-900 text-white rounded-xl py-3 font-semibold"
+      >
+        Enviar Mensagem
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+let usuarioAtual = '';
+let chatMinimizado = false;
+
+window.onload = function() {
+
+  carregarHistorico();
+  carregarChat();
+
+  const loginAtivo = sessionStorage.getItem('siafauna_login');
+  const usuarioSalvo = sessionStorage.getItem('siafauna_usuario');
+
+  if (loginAtivo === 'true' && usuarioSalvo) {
+
+    usuarioAtual = usuarioSalvo;
+
+    document.getElementById('usuarioLogado').innerText = usuarioAtual;
+
+    abrirPlataforma();
+  }
+};
+
+// EVENTOS
+
+document.getElementById('btnLogin').addEventListener('click', fazerLogin);
+document.getElementById('btnContinuar').addEventListener('click', entrarSistema);
+document.getElementById('btnLogout').addEventListener('click', logout);
+document.getElementById('btnMinimizarChat').addEventListener('click', toggleChat);
+document.getElementById('btnEnviarChat').addEventListener('click', enviarMensagemChat);
+document.getElementById('btnExportarPDF').addEventListener('click', exportarHistoricoPDF);
+
+// LOGIN
+
+function fazerLogin() {
+
+  const usuario = document.getElementById('usuario').value;
+  const senha = document.getElementById('senha').value;
+
+  if (usuario === 'siafauna' && senha === '1234@') {
+
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('nomeTela').style.display = 'flex';
+
+  } else {
+
+    alert('Usuário ou senha incorretos');
+  }
+}
+
+function entrarSistema() {
+
+  const nome = document.getElementById('nomeUsuario').value;
+
+  if (!nome.trim()) {
+    alert('Digite um nome');
+    return;
+  }
+
+  usuarioAtual = nome;
+
+  sessionStorage.setItem('siafauna_login', 'true');
+  sessionStorage.setItem('siafauna_usuario', nome);
+
+  document.getElementById('usuarioLogado').innerText = nome;
+
+  abrirPlataforma();
+}
+
+function abrirPlataforma() {
+
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('nomeTela').style.display = 'none';
+  document.getElementById('plataforma').style.display = 'block';
+
+  mostrarChat();
+}
+
+function logout() {
+
+  sessionStorage.removeItem('siafauna_login');
+  sessionStorage.removeItem('siafauna_usuario');
+
+  location.reload();
+}
+
+// HISTÓRICO
+
+function salvarHistorico() {
+
+  localStorage.setItem(
+    'siafauna_historico',
+    document.getElementById('historico').innerHTML
+  );
+}
+
+function carregarHistorico() {
+
+  const historico = localStorage.getItem('siafauna_historico');
+
+  if (historico) {
+
+    document.getElementById('historico').innerHTML = historico;
+  }
+}
+
+function adicionarHistorico(tipo, texto, fase) {
+
+  const historico = document.getElementById('historico');
+
+  const div = document.createElement('div');
+
+  div.className = 'historico-item bg-gray-100 rounded-2xl p-4 relative';
+
+  const data = new Date().toLocaleString('pt-BR');
+
+  div.innerHTML = `
+
+    <button
+      class="btn-apagar absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-lg text-sm"
+    >
+      Apagar
+    </button>
+
+    <div class="font-bold text-slate-700 mb-2">
+      ${tipo}
+    </div>
+
+    <div class="text-slate-800 whitespace-pre-wrap mb-3">
+      ${texto}
+    </div>
+
+    <div class="text-sm text-slate-500">
+      Fase: ${fase}
+    </div>
+
+    <div class="text-sm text-slate-500">
+      Usuário: ${usuarioAtual}
+    </div>
+
+    <div class="text-sm text-slate-500">
+      ${data}
+    </div>
+  `;
+
+  historico.prepend(div);
+
+  salvarHistorico();
+}
+
+function salvarItem(tipo, campoId, fase) {
+
+  const valor = document.getElementById(campoId).value;
+
+  if (!valor.trim()) return;
+
+  adicionarHistorico(tipo, valor, fase);
+
+  document.getElementById(campoId).value = '';
+}
+
+function salvarEstrategia() {
+
+  const valor = document.getElementById('estrategia').value;
+
+  if (!valor.trim()) return;
+
+  adicionarHistorico('Estratégia', valor, 'Planejamento');
+
+  document.getElementById('estrategia').value = '';
+}
+
+function salvarReuniao() {
+
+  const valor = document.getElementById('assunto').value;
+
+  if (!valor.trim()) return;
+
+  adicionarHistorico('Reunião', valor, 'Projeto');
+
+  document.getElementById('assunto').value = '';
+}
+
+function enviarComentario() {
+
+  const valor = document.getElementById('comentario').value;
+
+  if (!valor.trim()) return;
+
+  adicionarHistorico('Comentário', valor, 'Enviado');
+
+  document.getElementById('comentario').value = '';
+}
+
+// APAGAR HISTÓRICO
+
+document.addEventListener('click', function(e) {
+
+  const apagar = e.target.closest('.btn-apagar');
+
+  if (apagar) {
+
+    const confirmar = confirm('Deseja confirmar a exclusão?');
+
+    if (confirmar) {
+
+      const card = apagar.closest('.historico-item');
+
+      if (card) {
+
+        card.remove();
+
+        salvarHistorico();
+      }
+    }
+  }
+});
+
+// CHAT
+
+function mostrarChat() {
+
+  document.getElementById('chatContainer').classList.remove('hidden');
+}
+
+function toggleChat() {
+
+  const chatBox = document.getElementById('chatBox');
+  const btn = document.getElementById('btnMinimizarChat');
+
+  chatMinimizado = !chatMinimizado;
+
+  if (chatMinimizado) {
+
+    chatBox.style.display = 'none';
+    btn.innerText = 'Abrir';
+
+  } else {
+
+    chatBox.style.display = 'block';
+    btn.innerText = 'Minimizar';
+  }
+}
+
+function salvarChat() {
+
+  localStorage.setItem(
+    'siafauna_chat',
+    document.getElementById('chatMensagens').innerHTML
+  );
+}
+
+function carregarChat() {
+
+  const chat = localStorage.getItem('siafauna_chat');
+
+  if (chat) {
+
+    document.getElementById('chatMensagens').innerHTML = chat;
+  }
+}
+
+function enviarMensagemChat() {
+
+  const input = document.getElementById('chatInput');
+
+  const mensagem = input.value;
+
+  if (!mensagem.trim()) return;
+
+  const data = new Date().toLocaleString('pt-BR');
+
+  const div = document.createElement('div');
+
+  div.className = 'chat-item bg-white border border-slate-200 rounded-xl p-3 relative';
+
+  div.innerHTML = `
+
+    <button
+      class="btn-apagar-chat absolute top-2 right-2 text-red-500 text-xs"
+    >
+      Apagar
+    </button>
+
+    <div class="font-bold text-slate-800 mb-1">
+      ${usuarioAtual}
+    </div>
+
+    <div class="text-sm text-slate-700 whitespace-pre-wrap">
+      ${mensagem}
+    </div>
+
+    <div class="text-xs text-slate-400 mt-2">
+      ${data}
+    </div>
+  `;
+
+  document.getElementById('chatMensagens').appendChild(div);
+
+  input.value = '';
+
+  salvarChat();
+}
+
+// APAGAR CHAT
+
+document.addEventListener('click', function(e) {
+
+  const apagar = e.target.closest('.btn-apagar-chat');
+
+  if (apagar) {
+
+    const confirmar = confirm('Deseja apagar esta mensagem?');
+
+    if (confirmar) {
+
+      const card = apagar.closest('.chat-item');
+
+      if (card) {
+
+        card.remove();
+
+        salvarChat();
+      }
+    }
+  }
+});
+
+// EXPORTAR PDF
+
+function exportarHistoricoPDF() {
+
+  const historico = document.getElementById('historico');
+
+  if (!historico) return;
+
+  const janela = window.open('', '_blank');
+
+  janela.document.write(`
+    <html>
+      <head>
+        <title>Histórico Siafauna</title>
+        <style>
+          body {
+            font-family: Arial;
+            padding: 30px;
+            line-height: 1.5;
+          }
+
+          pre {
+            white-space: pre-wrap;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Histórico de Eventos</h1>
+        <pre>${historico.innerText}</pre>
+      </body>
+    </html>
+  `);
+
+  janela.document.close();
+  janela.print();
+}
+
+// ENTER
+
+document.addEventListener('keydown', function(e) {
+
+  if (e.key === 'Enter') {
+
+    if (
+      document.getElementById('login').style.display !== 'none'
+    ) {
+
+      fazerLogin();
+
+    } else if (
+      document.getElementById('nomeTela').style.display !== 'none'
+    ) {
+
+      entrarSistema();
+    }
+  }
+});
+
+</script>
+
+</body>
+</html>
