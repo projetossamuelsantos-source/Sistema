@@ -1,0 +1,9 @@
+﻿<?php
+header('Content-Type: application/json');
+$arquivo = 'historico.json';
+if (!file_exists($arquivo)) {
+    file_put_contents($arquivo, '[]');
+}
+$conteudo = file_get_contents($arquivo);
+echo $conteudo;
+?>
